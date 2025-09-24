@@ -19,17 +19,21 @@ function Login() {
 
 
   useEffect(() => {
-    if (success && user && layoutLoaded) {
-      toast.success('Giriş başarılı !');
-      navigate('/homepage');
+    if (!layoutLoaded) return;
+
+    if (success && user) {
+      toast.success('Giriş başarılı!');
       dispatch(clearLoginState());
+      navigate('/homepage');
     }
 
-    if (error && layoutLoaded) {
+    if (error) {
       toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
       dispatch(clearLoginState());
     }
-  }, [success, user, error, layoutLoaded, navigate, dispatch]);
+  }, [success, user, error, layoutLoaded, dispatch, navigate]);
+
+  const handleLayoutLoaded = () => setLayoutLoaded(true);
 
 
   const handleChange = (e) => {

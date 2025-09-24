@@ -18,19 +18,23 @@ function Register() {
   const [layoutLoaded, setLayoutLoaded] = useState(false);
 
   useEffect(() => {
-    if (success && layoutLoaded) {
+    if (!layoutLoaded) return;
+
+    if (success) {
       toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
       dispatch(clearRegisterState());
       navigate('/login');
     }
 
-    if (error && layoutLoaded) {
+    if (error) {
       toast.error(error);
       dispatch(clearRegisterState());
     }
   }, [success, error, layoutLoaded, dispatch, navigate]);
 
+  const handleLayoutLoaded = () => setLayoutLoaded(true);
 
+  
   const validateName = (name) => {
     if (!name.trim()) return 'İsim alanı boş bırakılamaz.';
     if (/\d/.test(name)) return 'İsim alanına sayı girilemez.';
