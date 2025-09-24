@@ -24,22 +24,25 @@ function Register() {
   }, [success, error]);
 
   useEffect(() => {
-    if (!layoutLoaded || toastQueue.length === 0) return;
+    if (!layoutLoaded) return;
 
-    toastQueue.forEach(t => {
-      if (t.type === 'success') toast.success(t.message);
-      if (t.type === 'error') toast.error(t.message);
-    });
-
-    setToastQueue([]);
     if (success) {
-      dispatch(clearRegisterState());
-      navigate('/login');
+      toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
+      
+      setTimeout(() => {
+        dispatch(clearRegisterState());
+        navigate('/login');
+      }, 1000);
     }
+
     if (error) {
-      dispatch(clearRegisterState());
+      toast.error(error);
+      setTimeout(() => {
+        dispatch(clearRegisterState());
+      }, 1000);
     }
-  }, [layoutLoaded, toastQueue, dispatch, navigate, success, error]);
+  }, [success, error, layoutLoaded, dispatch, navigate]);
+
   const validateName = (name) => {
     if (!name.trim()) return 'İsim alanı boş bırakılamaz.';
     if (/\d/.test(name)) return 'İsim alanına sayı girilemez.';

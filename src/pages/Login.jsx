@@ -24,22 +24,24 @@ function Login() {
   }, [success, error, user]);
 
   useEffect(() => {
-    if (!layoutLoaded || toastQueue.length === 0) return;
+    if (!layoutLoaded) return;
 
-    toastQueue.forEach(t => {
-      if (t.type === 'success') toast.success(t.message);
-      if (t.type === 'error') toast.error(t.message);
-    });
-
-    setToastQueue([]);
     if (success && user) {
-      dispatch(clearLoginState());
-      navigate('/homepage');
-    }
+      toast.success('Giriş başarılı!');
+        setTimeout(() => {
+          dispatch(clearLoginState());
+          navigate('/homepage');
+        }, 1000);
+      }
+
     if (error) {
-      dispatch(clearLoginState());
+      toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
+      setTimeout(() => {
+        dispatch(clearLoginState());
+      }, 1000);
     }
-  }, [layoutLoaded, toastQueue, dispatch, navigate, success, user, error]);
+  }, [success, user, error, layoutLoaded, dispatch, navigate]);
+
 
 
   const handleChange = (e) => {
