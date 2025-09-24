@@ -16,28 +16,30 @@ function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [layoutLoaded, setLayoutLoaded] = useState(false);
+  const [toastQueue, setToastQueue] = useState([]);
 
   useEffect(() => {
-    if (!layoutLoaded) return;
+    if (success) setToastQueue(prev => [...prev, { type: 'success', message: 'Kayıt başarılı! Giriş yapabilirsiniz.' }]);
+    if (error) setToastQueue(prev => [...prev, { type: 'error', message: error }]);
+  }, [success, error]);
 
+  useEffect(() => {
+    if (!layoutLoaded || toastQueue.length === 0) return;
+
+    toastQueue.forEach(t => {
+      if (t.type === 'success') toast.success(t.message);
+      if (t.type === 'error') toast.error(t.message);
+    });
+
+    setToastQueue([]);
     if (success) {
-    setTimeout(() => {
-      toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
       dispatch(clearRegisterState());
       navigate('/login');
-    }, 100); 
-  }
-
-  if (error) {
-    setTimeout(() => {
-      toast.error(error);
+    }
+    if (error) {
       dispatch(clearRegisterState());
-    }, 100);
-  }
-}, [success, error, layoutLoaded, dispatch, navigate]);
-
-
-  
+    }
+  }, [layoutLoaded, toastQueue, dispatch, navigate, success, error]);
   const validateName = (name) => {
     if (!name.trim()) return 'İsim alanı boş bırakılamaz.';
     if (/\d/.test(name)) return 'İsim alanına sayı girilemez.';

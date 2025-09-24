@@ -16,26 +16,30 @@ function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [layoutLoaded, setLayoutLoaded] = useState(false);
-
+  const [toastQueue, setToastQueue] = useState([]);
 
   useEffect(() => {
-    if (!layoutLoaded) return;
+    if (success && user) setToastQueue(prev => [...prev, { type: 'success', message: 'Giriş başarılı!' }]);
+    if (error) setToastQueue(prev => [...prev, { type: 'error', message: "Kullanıcı bulunamadı. Lütfen önce kayıt olun." }]);
+  }, [success, error, user]);
 
+  useEffect(() => {
+    if (!layoutLoaded || toastQueue.length === 0) return;
+
+    toastQueue.forEach(t => {
+      if (t.type === 'success') toast.success(t.message);
+      if (t.type === 'error') toast.error(t.message);
+    });
+
+    setToastQueue([]);
     if (success && user) {
-    setTimeout(() => {
-      toast.success('Giriş başarılı!');
       dispatch(clearLoginState());
       navigate('/homepage');
-    }, 100); 
-  }
-
-  if (error) {
-    setTimeout(() => {
-      toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
+    }
+    if (error) {
       dispatch(clearLoginState());
-    }, 100);
-  }
-}, [success, user, error, layoutLoaded, dispatch, navigate]);
+    }
+  }, [layoutLoaded, toastQueue, dispatch, navigate, success, user, error]);
 
 
   const handleChange = (e) => {
