@@ -1,16 +1,15 @@
-import React, { Suspense, lazy } from 'react';
-import { Routes, Route } from 'react-router-dom';
-import usePageViews from './hooks/usePageViews';
+import { Suspense } from "react";
+import { Routes, Route } from "react-router-dom";
+import { ToastContainer } from "react-toastify";  
+import "react-toastify/dist/ReactToastify.css";    
 
-const Home = lazy(() => import('./pages/Home.jsx'));
-const Register = lazy(() => import('./pages/Register.jsx'));
-const Login = lazy(() => import('./pages/Login.jsx'));
-const HomePage = lazy(() => import('./pages/HomePage.jsx'));
-const NotFound = lazy(() => import('./pages/NotFound.jsx'));
+import Home from "./pages/Home";
+import Register from "./pages/Register";
+import Login from "./pages/Login";
+import HomePage from "./pages/HomePage";
+import NotFound from "./pages/NotFound";
 
 function App() {
-  usePageViews();  
-
   return (
     <>
       <Suspense fallback={<div>Yükleniyor...</div>}>
@@ -22,6 +21,20 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </Suspense>
+
+      <ToastContainer
+        position="top-right"   
+        autoClose={3000}     
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"     
+        limit={5}
+      />
     </>
   );
 }

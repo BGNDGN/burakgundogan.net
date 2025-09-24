@@ -5,23 +5,29 @@ import { loginUser, clearLoginState } from '../redux/slices/loginSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Eye, EyeOff } from 'lucide-react';
+import { toast } from "react-toastify";
 
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, error, user, success } = useSelector(state => state.login);
+  const { loading, user, success, error } = useSelector(state => state.login);
 
   const [formData, setFormData] = useState({ email: '', password: '' });
-  const [formErrors, setFormErrors] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
     if (success && user) {
+      toast.success('Giriş başarılı !');
       navigate('/homepage');
       dispatch(clearLoginState());
     }
-  }, [success, user, navigate, dispatch]);
+
+    if (error) {
+      toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
+      dispatch(clearLoginState());
+    }
+  }, [success, user, error, navigate, dispatch]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,50 +35,50 @@ function Login() {
       ...prev,
       [name]: value
     }));
-
-    setFormErrors(prev => ({
-      ...prev,
-      [name]: ''
-    }));
   };
 
   const validateEmail = (email) => {
-    const allowedDomains = ['gmail.com', 'hotmail.com', 'outlook.com'];
+    if (!email) return "E-posta adresi boş bırakılamaz!";
+
+    const allowedDomains = ["gmail.com", "hotmail.com", "outlook.com"];
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email)) return false;
+    if (!emailRegex.test(email)) {
+      return "Sadece gmail, hotmail veya outlook adreslerini kullanarak giriş yapın. Örneğin: example@gmail.com, example@hotmail.com, example@outlook.com";
+    }
 
-    const domain = email.split('@')[1];
-    return allowedDomains.includes(domain);
+    const domain = email.split("@")[1]?.toLowerCase();
+    if (!allowedDomains.includes(domain)) {
+      return "Sadece gmail, hotmail veya outlook adreslerini kullanarak giriş yapın. Örneğin:\nexample@gmail.com, example@hotmail.com, example@outlook.com";
+    }
+
+    return "";
   };
 
   const validatePassword = (password) => {
+    if (!password) return "Şifre boş bırakılamaz!";
     const startsWithUpper = /^[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
-    return startsWithUpper && hasNumber;
+    if (!startsWithUpper || !hasNumber) return "Şifre büyük harf ile başlamalı ve en az 1 rakam içermelidir.";
+    return "";
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    let valid = true;
-    let errors = {};
+    const errors = [];
 
-    if (!validateEmail(formData.email)) {
-      errors.email = 'Lütfen geçerli bir e-posta adresi girin (gmail, hotmail, outlook).';
-      valid = false;
-    }
+    const emailError = validateEmail(formData.email);
+    if (emailError) errors.push(emailError);
 
-    if (!validatePassword(formData.password)) {
-      errors.password = 'Şifre büyük harf ile başlamalı ve en az 1 rakam içermelidir.';
-      valid = false;
-    }
+    const passwordError = validatePassword(formData.password);
+    if (passwordError) errors.push(passwordError);
 
-    setFormErrors(errors);
+    errors.slice(0, 3).forEach(err => toast.error(err));
 
-    if (valid) {
-      dispatch(loginUser(formData));
-    }
+    if (errors.length > 0) return;
+
+    dispatch(loginUser(formData));
   };
 
   return (
@@ -85,7 +91,6 @@ function Login() {
             <label htmlFor="email">E-mail:</label>
             <input className={styles.formInput} id="email" name="email" type="email" maxLength={30} value={formData.email} onChange={handleChange} required/>
           </div>
-          {formErrors.email && <p className={styles.errorMessage}>{formErrors.email}</p>}
 
           <div className={styles.formGroup}>
             <label htmlFor="password">Şifre:</label>
@@ -94,14 +99,13 @@ function Login() {
               <button className={styles.eyeButton} type="button" aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'} onClick={() => setShowPassword(prev => !prev)}>{showPassword ? <EyeOff size={18} color="black" /> : <Eye size={18} color="black" />}</button>
             </div>
           </div>
-          {formErrors.password && <p className={styles.errorMessage}>{formErrors.password}</p>}
 
           <button className={styles.submitButton} type="submit" disabled={loading}>{loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}</button>
 
-          <p className={styles.loginPageParagraph}>Kayıtlı değil misiniz? <Link to="/register">Kayıt olun!</Link></p>
-          {error && <p className={styles.userErrorMessage}>{error}</p>}
+          <p className={styles.loginPageParagraph}>
+            Kayıtlı değil misiniz? <Link to="/register">Kayıt olun!</Link>
+          </p>
         </form>
-
       </div>
     </Layout>
   );

@@ -8,40 +8,38 @@ import burakImage from '../assets/burak-profile.webp';
 import { Link } from 'react-router-dom';
 import styles from '../css/HomePage.module.css';
 import Layout from '../components/Layout';
+import { toast } from "react-toastify";
 
 function HomePage() {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
-  const [emailError, setEmailError] = useState('');
-  const [submitted, setSubmitted] = useState(false);
 
   const validateEmail = (email) => {
-    if (!email) return '';
-    const allowedDomains = ['gmail.com', 'hotmail.com', 'outlook.com'];
-    const parts = email.split('@');
-    if (parts.length !== 2) return 'Geçerli bir e-posta adresi girin.';
+    if (!email) return "E-posta adresi boş bırakılamaz!";
+
+    const allowedDomains = ["gmail.com", "hotmail.com", "outlook.com"];
+    const parts = email.split("@");
+
+    if (parts.length !== 2) return "Sadece gmail, hotmail veya outlook adresi girin. Örneğin example@gmail.com example@hotmail.com example@outlook.com";
+
     const domain = parts[1].toLowerCase();
-    if (!allowedDomains.includes(domain)) {
-      return 'Sadece gmail, hotmail veya outlook adresi girin.';
-    }
-    return '';
+    if (!allowedDomains.includes(domain)) return "Sadece gmail, hotmail veya outlook adresi girin. Örneğin example@gmail.com example@hotmail.com example@outlook.com";
+    
+    return ""; 
   };
 
   const handleSendMail = useCallback((e) => {
     e.preventDefault();
-    setSubmitted(true);
 
-    if (!email.trim()) {
-      setEmailError('');
+    const error = validateEmail(email);
+
+    if (error) {
+      toast.error(error); 
       return;
     }
 
-    const error = validateEmail(email);
-    setEmailError(error);
-    if (error) return;
-
     const gmailURL = `https://mail.google.com/mail/?view=cm&fs=1&to=burakgundogan25@gmail.com&su=${encodeURIComponent(subject)}&body=Mail adresim:${email}`;
-    window.open(gmailURL, '_blank');
+    window.open(gmailURL, "_blank");
   }, [email, subject]);
 
   return (
@@ -66,12 +64,7 @@ function HomePage() {
         <div id="about" className={styles.aboutZone}>
           <h2>Hakkımda</h2>
           <hr />
-          <img
-            src={burakImage}
-            className={styles.burakImageHomePage}
-            alt="Burak Gündoğan"
-            loading="lazy"
-          />
+          <img src={burakImage} className={styles.burakImageHomePage} alt="Burak Gündoğan" loading="lazy"/>
           <div className={styles.aboutZoneText}>
             <About />
           </div>
@@ -101,14 +94,13 @@ function HomePage() {
           <form onSubmit={handleSendMail}>
             <div className={styles.mailDiv}>
               <label>E-mail:
-                <input className={styles.mailInput} type="email" value={email} onChange={(e) => { setEmail(e.target.value); if (submitted) { setEmailError(validateEmail(e.target.value)); }}} placeholder="E-posta adresiniz" required/>
+                <input className={styles.mailInput} type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-posta adresiniz" required/>
               </label>
-              {submitted && email && emailError && (<p className={styles.registerInputError}>{emailError}</p>)}
             </div>
 
             <div className={styles.subjectDiv}>
               <label />Konu:
-              <textarea className={styles.subjectInput} value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Konu başlığı" required/>
+              <textarea className={styles.subjectInput} value={subject} onChange={(e) => setSubject(e.target.value)} placeholder="Konu başlığı"required />
             </div>
 
             <div>
