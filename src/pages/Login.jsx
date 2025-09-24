@@ -16,7 +16,6 @@ function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [layoutLoaded, setLayoutLoaded] = useState(false);
-  const [toastQueue, setToastQueue] = useState([]);
 
   useEffect(() => {
     if (success && user) setToastQueue(prev => [...prev, { type: 'success', message: 'Giriş başarılı!' }]);

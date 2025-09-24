@@ -16,7 +16,6 @@ function Register() {
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [layoutLoaded, setLayoutLoaded] = useState(false);
-  const [toastQueue, setToastQueue] = useState([]);
 
   useEffect(() => {
     if (success) setToastQueue(prev => [...prev, { type: 'success', message: 'Kayıt başarılı! Giriş yapabilirsiniz.' }]);
@@ -28,7 +27,7 @@ function Register() {
 
     if (success) {
       toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
-      
+
       setTimeout(() => {
         dispatch(clearRegisterState());
         navigate('/login');
