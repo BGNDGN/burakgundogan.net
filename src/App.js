@@ -34,6 +34,8 @@ function App() {
         pauseOnHover
         theme="colored"     
         limit={5}
+        toastClassName="toastify-toast"
+        bodyClassName="toastify-body"
       />
     </>
   );

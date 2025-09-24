@@ -22,3 +22,16 @@ p {
   margin-bottom: 1em;
   line-height: 1.6;
 }
+
+
+@media (max-width: 768px) {
+  .Toastify__toast-container {
+    width: 90%;    
+    left: 5%;    
+    right: 5%;      
+  }
+
+  .toastify-body {
+    font-size: 13px;  
+  }
+}
