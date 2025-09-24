@@ -33,8 +33,6 @@ function Login() {
     }
   }, [success, user, error, layoutLoaded, dispatch, navigate]);
 
-  const handleLayoutLoaded = () => setLayoutLoaded(true);
-
 
   const handleChange = (e) => {
     const { name, value } = e.target;

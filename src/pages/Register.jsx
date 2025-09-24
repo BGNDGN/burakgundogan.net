@@ -32,8 +32,6 @@ function Register() {
     }
   }, [success, error, layoutLoaded, dispatch, navigate]);
 
-  const handleLayoutLoaded = () => setLayoutLoaded(true);
-
   
   const validateName = (name) => {
     if (!name.trim()) return 'İsim alanı boş bırakılamaz.';
