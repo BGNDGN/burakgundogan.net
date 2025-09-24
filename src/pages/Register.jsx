@@ -18,11 +18,6 @@ function Register() {
   const [layoutLoaded, setLayoutLoaded] = useState(false);
 
   useEffect(() => {
-    if (success) setToastQueue(prev => [...prev, { type: 'success', message: 'Kayıt başarılı! Giriş yapabilirsiniz.' }]);
-    if (error) setToastQueue(prev => [...prev, { type: 'error', message: error }]);
-  }, [success, error]);
-
-  useEffect(() => {
     if (!layoutLoaded) return;
 
     if (success) {

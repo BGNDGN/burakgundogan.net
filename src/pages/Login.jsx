@@ -18,11 +18,6 @@ function Login() {
   const [layoutLoaded, setLayoutLoaded] = useState(false);
 
   useEffect(() => {
-    if (success && user) setToastQueue(prev => [...prev, { type: 'success', message: 'Giriş başarılı!' }]);
-    if (error) setToastQueue(prev => [...prev, { type: 'error', message: "Kullanıcı bulunamadı. Lütfen önce kayıt olun." }]);
-  }, [success, error, user]);
-
-  useEffect(() => {
     if (!layoutLoaded) return;
 
     if (success && user) {
