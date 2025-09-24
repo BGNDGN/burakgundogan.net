@@ -15,19 +15,21 @@ function Register() {
 
   const [formData, setFormData] = useState({ name: '', email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [layoutLoaded, setLayoutLoaded] = useState(false);
 
   useEffect(() => {
-    if (success) {
+    if (success && layoutLoaded) {
       toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
       dispatch(clearRegisterState());
       navigate('/login');
     }
 
-    if (error) {
+    if (error && layoutLoaded) {
       toast.error(error);
       dispatch(clearRegisterState());
     }
-  }, [success, error, dispatch, navigate]);
+  }, [success, error, layoutLoaded, dispatch, navigate]);
+
 
   const validateName = (name) => {
     if (!name.trim()) return 'İsim alanı boş bırakılamaz.';
@@ -79,7 +81,7 @@ function Register() {
   };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/1093662-hd_1920_1080_30fps.mp4">
+    <Layout videoUrl="https://burakgundogan.net/videos/1093662-hd_1920_1080_30fps.mp4" onLoaded={() => setLayoutLoaded(true)}>
       <div className={styles.RegisterMain}>
         <h2 className={styles.registerTitle}>Kayıt Sayfası</h2>
 

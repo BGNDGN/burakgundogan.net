@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../css/Layout.module.css';
 
-function Layout({ children, videoUrl }) {
+function Layout({ children, videoUrl, onLoaded }) {
   const [loading, setLoading] = useState(true);
 
   return (
@@ -19,17 +19,16 @@ function Layout({ children, videoUrl }) {
         className={loading ? styles.hiddenVideo : styles.layoutBackgroundVideo}
         playsInline
         preload="auto"
-        onCanPlay={() => setLoading(false)}
+        onCanPlay={() => {
+          setLoading(false);
+          onLoaded?.(); 
+        }}
       >
         <source src={videoUrl} type="video/mp4" />
         Tarayıcınız video etiketini desteklemiyor.
       </video>
 
-      {!loading && (
-        <div className={styles.layoutContent}>
-          {children}
-        </div>
-      )}
+      {!loading && <div className={styles.layoutContent}>{children}</div>}
     </div>
   );
 }

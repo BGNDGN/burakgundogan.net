@@ -15,19 +15,22 @@ function Login() {
 
   const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
+  const [layoutLoaded, setLayoutLoaded] = useState(false);
+
 
   useEffect(() => {
-    if (success && user) {
+    if (success && user && layoutLoaded) {
       toast.success('Giriş başarılı !');
       navigate('/homepage');
       dispatch(clearLoginState());
     }
 
-    if (error) {
+    if (error && layoutLoaded) {
       toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
       dispatch(clearLoginState());
     }
-  }, [success, user, error, navigate, dispatch]);
+  }, [success, user, error, layoutLoaded, navigate, dispatch]);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -82,7 +85,7 @@ function Login() {
   };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/20004535-uhd_2560_1440_30fps_wvukgh.mp4">
+    <Layout videoUrl="https://burakgundogan.net/videos/20004535-uhd_2560_1440_30fps_wvukgh.mp4" onLoaded={() => setLayoutLoaded(true)}>
       <div className={styles.formContainer}>
         <h2 className={styles.formTitle}>Giriş Sayfası</h2>
 
