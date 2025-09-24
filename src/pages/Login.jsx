@@ -22,16 +22,20 @@ function Login() {
     if (!layoutLoaded) return;
 
     if (success && user) {
+    setTimeout(() => {
       toast.success('Giriş başarılı!');
       dispatch(clearLoginState());
       navigate('/homepage');
-    }
+    }, 100); 
+  }
 
-    if (error) {
+  if (error) {
+    setTimeout(() => {
       toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
       dispatch(clearLoginState());
-    }
-  }, [success, user, error, layoutLoaded, dispatch, navigate]);
+    }, 100);
+  }
+}, [success, user, error, layoutLoaded, dispatch, navigate]);
 
 
   const handleChange = (e) => {

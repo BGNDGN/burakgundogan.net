@@ -21,16 +21,21 @@ function Register() {
     if (!layoutLoaded) return;
 
     if (success) {
+    setTimeout(() => {
       toast.success('Kayıt başarılı! Giriş yapabilirsiniz.');
       dispatch(clearRegisterState());
       navigate('/login');
-    }
+    }, 100); 
+  }
 
-    if (error) {
+  if (error) {
+    setTimeout(() => {
       toast.error(error);
       dispatch(clearRegisterState());
-    }
-  }, [success, error, layoutLoaded, dispatch, navigate]);
+    }, 100);
+  }
+}, [success, error, layoutLoaded, dispatch, navigate]);
+
 
   
   const validateName = (name) => {
