@@ -25,14 +25,14 @@ function Login() {
         setTimeout(() => {
           dispatch(clearLoginState());
           navigate('/homepage');
-        }, 1000);
+        }, 5000);
       }
 
     if (error) {
       toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
       setTimeout(() => {
         dispatch(clearLoginState());
-      }, 1000);
+      }, 5000);
     }
   }, [success, user, error, layoutLoaded, dispatch, navigate]);
 
