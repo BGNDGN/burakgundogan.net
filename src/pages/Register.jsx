@@ -26,14 +26,14 @@ function Register() {
       setTimeout(() => {
         dispatch(clearRegisterState());
         navigate('/login');
-      }, 5000);
+      }, 3000);
     }
 
     if (error) {
       toast.error(error);
       setTimeout(() => {
         dispatch(clearRegisterState());
-      }, 5000);
+      }, 3000);
     }
   }, [success, error, layoutLoaded, dispatch, navigate]);
 
