@@ -11,6 +11,7 @@ function About() {
             <p>Merhaba, ben <strong>Burak Gündoğan</strong>.</p>
             <p><strong>Plevne Anadolu Lisesi</strong>'nden <strong>2022</strong> yılında mezun oldum.</p>
             <p>Ardından <strong>Topkapı Üniversitesi</strong> Bilgisayar Programlama bölümünü kazandım ve <strong>2024</strong> yılında başarıyla mezun oldum.</p>
+            <p>Askerlik görevimi <strong>7 Mayıs 2026</strong> yılında tamamladım.</p>
 
             <hr />
 
