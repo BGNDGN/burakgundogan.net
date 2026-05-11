@@ -53,8 +53,8 @@ function Home () {
             <p className={styles.blog}>BLOG Ve Giriş/Kayıt Sayfalarım</p>
             <hr className={styles.sectionHrBLOG} />
             <p className={styles.routerToHomePage} style={{ backgroundImage: `url(${homepage})` }}>Anasayfaya girmek için&nbsp;<Link to="/homepage"><strong className={styles.routerToHomePageStrong}>tıklayınız !</strong></Link></p>
-            <p className={styles.routerToLoginPage} style={{ backgroundImage: `url(${login})` }}>Giriş yapmak için&nbsp;<Link to="/register"><strong className={styles.routerToHomeLoginStrong}>tıklayınız !</strong></Link></p>
-            <p className={styles.routerToRegisterPage} style={{ backgroundImage: `url(${register})` }}>Kaydolmak için&nbsp;<Link to="/login"><strong className={styles.routerToHomeRegisterStrong}>tıklayınız !</strong></Link></p>
+            <p className={styles.routerToLoginPage} style={{ backgroundImage: `url(${login})` }}>Giriş yapmak için&nbsp;<Link to="/login"><strong className={styles.routerToHomeLoginStrong}>tıklayınız !</strong></Link></p>
+            <p className={styles.routerToRegisterPage} style={{ backgroundImage: `url(${register})` }}>Kaydolmak için&nbsp;<Link to="/register"><strong className={styles.routerToHomeRegisterStrong}>tıklayınız !</strong></Link></p>
           </div>
         </div>
       </div>
