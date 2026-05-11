@@ -92,7 +92,7 @@ function Login() {
   };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/20004535-uhd_2560_1440_30fps_wvukgh.mp4" onLoaded={() => setLayoutLoaded(true)}>
+    <Layout videoUrl="https://burakgundogan.net/videos/20004535-uhd_2560_1440_30fps_wvukgh.mp4">
 
       <div className={styles.formContainer}>
         <h2 className={styles.formTitle}>Giriş Sayfası</h2>
