@@ -185,10 +185,91 @@ a:hover {
   .homeMainDiv {
     flex-direction: column;
     align-items: center;
+    padding: 20px 12px;
+    gap: 24px;
   }
 
   .homeFirstDiv,
   .homeSecondDiv {
-    width: 95%;
+    width: 100%;
+    padding: 24px 18px;
+  }
+
+  .burakImage {
+    width: 130px;
+    height: 130px;
+  }
+
+  .nameSurname {
+    font-size: 1.4rem;
+    text-align: center;
+  }
+
+  .socialMedias {
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 10px 0;
+  }
+
+  .socialMedias p {
+    text-align: center;
+    width: 100%;
+    line-height: 1.5;
+  }
+
+  .Icons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+  }
+
+  .copyright {
+    width: 100%;
+    text-align: center;
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+  .copyright p {
+    text-align: center;
+  }
+
+  .blog {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .routerToHomePage,
+  .routerToLoginPage,
+  .routerToRegisterPage {
+
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 18px;
+    line-height: 1.5;
+    font-size: 1rem;
+    gap: 6px;
+    box-shadow: inset 0 0 0 2000px rgba(0,0,0,0.55);
+  }
+
+  .routerToHomePage a,
+  .routerToLoginPage a,
+  .routerToRegisterPage a {
+    display: inline;
+    margin: 0;
+  }
+
+  .sectionHr,
+  .sectionHrBLOG {
+    width: 100%;
   }
 }
