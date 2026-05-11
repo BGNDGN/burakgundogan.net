@@ -19,7 +19,6 @@ function Login() {
   });
 
   const [showPassword, setShowPassword] = useState(false);
-  const [layoutLoaded, setLayoutLoaded] = useState(false);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
