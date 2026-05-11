@@ -1,12 +1,31 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import registerReducer from './slices/registerSlice';
 import loginReducer from './slices/loginSlice';
 
-const store = configureStore({
-  reducer: {
-    register: registerReducer,
-    login: loginReducer,  
-  },
+import storage from 'redux-persist/lib/storage';
+import { persistReducer, persistStore } from 'redux-persist';
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['login'] 
+};
+
+const rootReducer = combineReducers({
+  register: registerReducer,
+  login: loginReducer,
 });
 
-export default store;
+const persistedReducer = persistReducer(persistConfig, rootReducer);
+
+const store = configureStore({
+  reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
+});
+
+export default store; 
+
+export const persistor = persistStore(store);

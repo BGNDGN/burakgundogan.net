@@ -87,8 +87,6 @@
   fill: #5c5c5c; 
 }
 
-
-
 @media (max-width: 768px) {
   .parent-container {
     width: 80vw; 

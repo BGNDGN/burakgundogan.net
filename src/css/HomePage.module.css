@@ -10,13 +10,12 @@
   background-color: #1f2937;
   color: #fff;
   padding: 1rem 2rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1); 
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
 .navbarPageName a {
   font-size: 25px;
   font-weight: bold;
-  margin-bottom: 10px;
   color: #ddd;
   text-decoration: none;
 }
@@ -26,8 +25,14 @@
   transition: 0.2s;
 }
 
+.navbarZones {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  white-space: nowrap;
+}
+
 .navbarZones a {
-  margin-left: 40px;
   color: #ddd;
   text-decoration: none;
   font-weight: 500;
@@ -38,353 +43,304 @@
   transition: 0.2s;
 }
 
-.mailDiv {
+.profileHoverArea {
+  width: 42px;
+  height: 42px;
   display: flex;
-  flex-direction: column;
-  align-items: start;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(10px);
+  cursor: pointer;
+  transition: all 0.25s ease;
 }
 
-.subjectDiv {
-  display: flex;
-  flex-direction: column;
-  gap: 8px; 
-  margin-bottom: 20px;
+.profileHoverArea:hover {
+  transform: translateY(-2px) scale(1.05);
+  background: white;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
 }
 
-.subjectLabel {
-  display: block;
-  font-size: 16px;
-  font-weight: 600;
-  color: #333;
-}
-
-.subjectInput {
-  height: 136px;
-  width: 75%;
-  padding: 10px;
-  font-size: 15px;
-  line-height: 1.5;
-  border: 1.5px solid #bbb;
+.profileIcon {
+  font-size: 18px;
+  color: #e5e7eb;
+  padding: 6px;
   border-radius: 8px;
-  resize: vertical;
-  box-sizing: border-box;
-  resize: none;
+  transition: all 0.3s ease;
 }
 
-.contactMeButton {
+.profileSidebar {
+  position: fixed;
+  top: 0;
+  right: -340px;
+  width: 340px;
+  height: 100vh;
+  background: rgba(17, 24, 39, 0.95);
+  backdrop-filter: blur(12px);
+  color: #fff;
+  padding: 25px;
+  box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+  transition: right 0.3s ease;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.profileSidebarOpen {
+  right: 0;
+}
+
+.sidebarClose {
+  font-size: 28px;
+  cursor: pointer;
+  color: #fff;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+}
+
+.sidebarClose:hover {
+  color: #4a90e2;
+}
+
+.profileSidebar h3 {
+  margin-top: 40px;
+  font-size: 20px;
+  color: #fff;
+  text-align: center;
+}
+
+.profileSidebar p {
+  font-size: 14px;
+  color: #d1d5db;
+  margin: 5px 0;
+}
+
+.userInfoHr {
   width: 100%;
+  border: none;
+  height: 1px;
+  margin: 10px auto;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(255, 255, 255, 0.6),
+    transparent
+  );
+}
+
+.profileSidebar button {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.25s ease;
+  letter-spacing: 0.3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profileSidebar button:first-of-type {
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
+  color: white;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
+}
+
+.profileSidebar button:first-of-type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.45);
+}
+
+.profileSidebar button:first-of-type:active {
+  transform: scale(0.97);
+}
+
+.profileSidebar button:last-of-type {
+  background: linear-gradient(135deg, #ef4444, #dc2626);
+  color: white;
+  box-shadow: 0 6px 18px rgba(239, 68, 68, 0.35);
+}
+
+.profileSidebar button:last-of-type:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(239, 68, 68, 0.45);
+}
+
+.profileSidebar button:last-of-type:active {
+  transform: scale(0.97);
+}
+
+.aboutZone,
+.experienceZone,
+.usingTechnologiesZone,
+.contactMeZone,
+.socialMediasZone {
+  width: min(1000px, 92%);
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  transition: transform 0.2s ease;
+}
+
+.aboutZone:hover,
+.experienceZone:hover,
+.usingTechnologiesZone:hover,
+.contactMeZone:hover,
+.socialMediasZone:hover {
+  transform: translateY(-3px);
 }
 
 .aboutZone {
   display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  padding: 40px 40px 40px 40px;
-  width: 1000px;
-  min-height: 100vh;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .aboutZone h2 {
-  width: 100%;
+  text-align: center;
   font-size: 2rem;
   color: #1f2937;
 }
 
 .aboutZone hr {
   width: 100%;
-  margin-bottom: 1rem;
+  border: none;
+  height: 2px;
+  background: #e5e7eb;
 }
 
 .burakImageHomePage {
-  width: 280px;
-  height: 280px;
-  border-radius: 250px;
-  margin-top: 40px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  margin: 0 auto;
 }
 
-.aboutZoneText {
-  flex: 1;
-  min-width: 250px;
-  font-size: 1rem;
-  line-height: 1.7;
-  color: #333;
-}
-
-.experienceZone {
-  padding: 40px 40px 40px 40px;
-  width: 1000px;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.experienceZone hr {
-  margin-top: 40px;
-  margin-bottom: 40px;
-}
-
-.usingTechnologiesZone {
-  padding: 40px 40px 40px 40px;
-  width: 1000px;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
+.experienceZone h2,
 .usingTechnologiesZone h2 {
   text-align: center;
-}
-
-ul {
-  padding-left: 20px;
-  list-style-type: disc;
-  margin-top: 10px;
-}
-
-li {
-  margin-bottom: 8px;
-}
-
-.usingTechnologiesZone hr {
-  margin: 40px 0px 40px 0px;
 }
 
 .contactMeZone {
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  padding: 40px 40px 40px 40px;
-  width: 1000px;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  gap: 15px;
 }
 
-.contactMeZoneHr {
-  width: 100%;
-  margin-bottom: 30px;
-}
-
-.aboutZoneThisHrHasToHidden {
-  width: 100%;
-}
-
-.socialMediasZone {
-  padding: 40px 40px 40px 40px;
-  width: 1000px;
-  margin: auto;
-  margin-top: 40px;
-  margin-bottom: 40px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+.contactMeZone h2 {
   text-align: center;
 }
 
-.contactMeZone label {
-  display: block;
-  margin-bottom: 1rem;
-  font-weight: 500;
-}
-
-.contactMeZone input {
+.contactMeZone input,
+.contactMeZone textarea {
   width: 100%;
-  padding: 10px 12px;
+  padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  margin-top: 6px;
-  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.contactMeZone textarea {
+  min-height: 120px;
+  resize: none;
 }
 
 .contactMeZone button {
   background-color: #2563eb;
   color: white;
   border: none;
-  padding: 12px 20px;
-  font-size: 1rem;
+  padding: 12px;
   border-radius: 6px;
+  cursor: pointer;
 }
 
 .contactMeZone button:hover {
   background-color: #1e40af;
-  transition: 0.3s;
 }
 
-.socialMediasZone h2 {
-  margin-bottom: 20px;
+.contactMeZone hr {
+  width: 100%;
+  height: 2px;
 }
 
-.socialMediasZone hr {
-  margin: 40px 0px 40px 0px;
-}
-
-.contactMeZone h2, .aboutZone h2, .experienceZone h2 {
+.socialMediasZone {
   text-align: center;
 }
 
-.registerInputError {
-  color: red;
-  margin-top: 5px;
-  padding: 4px 8px;
-  width: 27.5%;
+.socialMediasZone h2 {
+  margin-bottom: 10px;
+}
+
+.socialMediasZone hr {
+  width: 100%;
+  height: 2px;
+  margin: 20px auto;
 }
 
 h2, h3, h4, h5 {
   color: #1f2937;
-  margin-bottom: 10px;
 }
-
-.aboutZone:hover, .experienceZone:hover, .usingTechnologiesZone:hover, .contactMeZone:hover, .socialMediasZone:hover {
-  transition: 0.2s;
-  width: 1050px;
-}
-
-.homepageBackgroundVideo {
-  position: fixed; 
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  object-fit: cover;
-  z-index: -1; 
-}
-
-
 
 @media (max-width: 768px) {
-  .navbarDiv {
-    position: static;
-    box-shadow: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center; 
-    gap: 1rem; 
-  }
 
-  .navbarZones {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column; 
-    gap: 0.8rem;
-  }
+.navbarDiv {
+  position: relative;
+  display: flex;
+  flex-direction: column;  
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+  background-color: #1f2937;
+  color: #fff;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
 
-  .navbarZones a {
-    margin-left: 0;
-    font-size: 1.1rem;
-    padding: 0.5rem 0;
-  }
+.navbarPageName {
+  text-align: center;
+}
 
-  .aboutZone,
-  .experienceZone,
-  .usingTechnologiesZone,
-  .contactMeZone,
-  .socialMediasZone {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-  }
+.navbarPageName a {
+  font-size: 24px;
+  font-weight: bold;
+  color: #ddd;
+  text-decoration: none;
+}
 
-  .aboutZone {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
-
-  .burakImageHomePage{
-    width: 180px;
-    height: 180px;
-    margin-top: 20px;
-  }
-
-  .aboutZoneText {
-    font-size: 0.95rem;
-  }
-
-  .aboutZoneThisHrHasToHidden {
-    display: none;
-  }
-
-  .subjectInput {
-    height: 136px;
-    width: 100%;
-    padding: 10px;
-    font-size: 15px;
-    line-height: 1.5;
-    border: 1.5px solid #bbb;
-    border-radius: 8px;
-    resize: vertical;
-    box-sizing: border-box;
-    resize: none;
-  }
-
-  .contactMeZone input,
-  .contactMeZone button {
-    font-size: 0.95rem;
-  }
-
-  .registerInputError {
-    width: 80.5%;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3, h4 {
-    font-size: 1.2rem;
-  }
-
-  ul {
-    padding-left: 16px;
-  }
-
-  .navbarPageName a {
-    font-size: 20px;
-    margin-bottom: 0.5rem;
-  }
-
-  .aboutZone,
-  .experienceZone,
-  .usingTechnologiesZone,
-  .contactMeZone {
-    width: 90%; 
-    margin: 40px auto; 
-    padding: 40px;
-    background-color: #ffffff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-  }
-
-  .socialMediasZone {
-    width: 90%;
-    padding: 40px 0px 25px 0px;
-  }
-
-  .socialMediasZone hr {
-    margin: 40px auto; 
-    width: 85%; 
-  }
-
-  .aboutZone:hover, .experienceZone:hover, .usingTechnologiesZone:hover, .contactMeZone:hover, .socialMediasZone:hover {
+.navbarPageName a:hover {
+  color: #fff;
   transition: 0.2s;
-  width: 90%;
+}
+
+.navbarZones {
+  display: flex;
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.navbarZones a {
+  color: #ddd;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.navbarZones a:hover {
+  color: #fff;
+  transition: 0.2s;
+}
+
+.profileHoverArea {
+  margin-top: 5px;
 }
 }

@@ -6,44 +6,116 @@ export const loginUser = createAsyncThunk(
   'login/loginUser',
   async (userData, { rejectWithValue }) => {
     try {
-      const response = await axios.post(`${baseURL}/api/login`, userData);
-      return response.data;
+      const response = await axios.post(
+        `${baseURL}/api/login`,
+        userData
+      );
+
+      const { token, user } = response.data;
+
+      localStorage.setItem('token', token);
+
+      return { token, user };
+
     } catch (error) {
-      return rejectWithValue(error.response?.data?.message || error.message);
+      return rejectWithValue(
+        error.response?.data?.message || 'Login hatası'
+      );
     }
   }
 );
 
+
+export const fetchMe = createAsyncThunk(
+  'login/fetchMe',
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = localStorage.getItem('token');
+
+      if (!token) {
+        return rejectWithValue('Token yok');
+      }
+
+      const res = await axios.get(`${baseURL}/api/me`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          _t: Date.now(), 
+        },
+      });
+
+      return res.data?.user || null;
+
+    } catch (error) {
+      localStorage.removeItem('token');
+
+      return rejectWithValue(
+        error.response?.data?.message || 'Auth başarısız'
+      );
+    }
+  }
+);
+
+
 const loginSlice = createSlice({
   name: 'login',
-  initialState: { user: null, loading: false, error: null, success: false },
+
+  initialState: {
+    user: null,
+    token: localStorage.getItem('token') || null,
+    loading: false,
+    error: null,
+  },
+
   reducers: {
-    clearLoginState: (state) => {
+    logoutUser: (state) => {
+      localStorage.removeItem('token');
+      state.user = null;
+      state.token = null;
       state.loading = false;
       state.error = null;
-      state.success = false;
-      state.user = null;
     },
   },
+
   extraReducers: (builder) => {
     builder
       .addCase(loginUser.pending, (state) => {
         state.loading = true;
         state.error = null;
-        state.success = false;
       })
+
       .addCase(loginUser.fulfilled, (state, action) => {
         state.loading = false;
         state.user = action.payload.user;
-        state.success = true;
+        state.token = action.payload.token;
+        state.error = null;
       })
+
       .addCase(loginUser.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
-        state.success = false;
+      })
+
+      .addCase(fetchMe.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+
+      .addCase(fetchMe.fulfilled, (state, action) => {
+        state.loading = false;
+        state.user = action.payload;
+        state.error = null;
+      })
+
+      .addCase(fetchMe.rejected, (state, action) => {
+        state.loading = false;
+        state.user = null;
+        state.token = null;
+        state.error = action.payload;
       });
   },
 });
 
-export const { clearLoginState } = loginSlice.actions;
+export const { logoutUser } = loginSlice.actions;
 export default loginSlice.reducer;

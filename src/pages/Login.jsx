@@ -1,7 +1,7 @@
 import styles from '../css/Login.module.css';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { loginUser, clearLoginState } from '../redux/slices/loginSlice';
+import { loginUser } from '../redux/slices/loginSlice';
 import { useNavigate, Link } from 'react-router-dom';
 import Layout from '../components/Layout';
 import { Eye, EyeOff } from 'lucide-react';
@@ -11,35 +11,19 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { loading, user, success, error } = useSelector(state => state.login);
+  const { loading } = useSelector(state => state.login);
 
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const [formData, setFormData] = useState({
+    email: '',
+    password: ''
+  });
+
   const [showPassword, setShowPassword] = useState(false);
   const [layoutLoaded, setLayoutLoaded] = useState(false);
 
-  useEffect(() => {
-    if (!layoutLoaded) return;
-
-    if (success && user) {
-      toast.success('Giriş başarılı!');
-        setTimeout(() => {
-          dispatch(clearLoginState());
-          navigate('/homepage');
-        }, 3000);
-      }
-
-    if (error) {
-      toast.error("Kullanıcı bulunamadı. Lütfen önce kayıt olun.");
-      setTimeout(() => {
-        dispatch(clearLoginState());
-      }, 3000);
-    }
-  }, [success, user, error, layoutLoaded, dispatch, navigate]);
-
-
-
   const handleChange = (e) => {
     const { name, value } = e.target;
+
     setFormData(prev => ({
       ...prev,
       [name]: value
@@ -53,12 +37,13 @@ function Login() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailRegex.test(email)) {
-      return "Sadece gmail, hotmail veya outlook adreslerini kullanarak giriş yapın. Örneğin: example@gmail.com, example@hotmail.com, example@outlook.com";
+      return "Geçerli bir e-mail girin.";
     }
 
     const domain = email.split("@")[1]?.toLowerCase();
+
     if (!allowedDomains.includes(domain)) {
-      return "Sadece gmail, hotmail veya outlook adreslerini kullanarak giriş yapın. Örneğin:\nexample@gmail.com, example@hotmail.com, example@outlook.com";
+      return "Sadece gmail, hotmail veya outlook kullanabilirsiniz.";
     }
 
     return "";
@@ -66,13 +51,18 @@ function Login() {
 
   const validatePassword = (password) => {
     if (!password) return "Şifre boş bırakılamaz!";
+
     const startsWithUpper = /^[A-Z]/.test(password);
     const hasNumber = /\d/.test(password);
-    if (!startsWithUpper || !hasNumber) return "Şifre büyük harf ile başlamalı ve en az 1 rakam içermelidir.";
+
+    if (!startsWithUpper || !hasNumber) {
+      return "Şifre büyük harf ile başlamalı ve en az 1 rakam içermelidir.";
+    }
+
     return "";
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     const errors = [];
@@ -83,18 +73,30 @@ function Login() {
     const passwordError = validatePassword(formData.password);
     if (passwordError) errors.push(passwordError);
 
-    errors.slice(0, 3).forEach(err => toast.error(err));
+    errors.forEach(err => toast.error(err));
 
     if (errors.length > 0) return;
 
-    dispatch(loginUser(formData));
+    try {
+      const result = await dispatch(loginUser(formData));
+
+      if (result.payload?.token) {
+        toast.success("Giriş başarılı!");
+        navigate('/homepage');
+      } else {
+        toast.error("Giriş başarısız!");
+      }
+
+    } catch (err) {
+      toast.error("Bir hata oluştu!");
+    }
   };
 
   return (
     <Layout videoUrl="https://burakgundogan.net/videos/20004535-uhd_2560_1440_30fps_wvukgh.mp4" onLoaded={() => setLayoutLoaded(true)}>
+
       <div className={styles.formContainer}>
         <h2 className={styles.formTitle}>Giriş Sayfası</h2>
-
         <form onSubmit={handleSubmit} className={styles.form}>
           <div className={styles.formGroup}>
             <label htmlFor="email">E-mail:</label>
@@ -103,19 +105,19 @@ function Login() {
 
           <div className={styles.formGroup}>
             <label htmlFor="password">Şifre:</label>
+
             <div className={styles.passwordInputWrapper}>
               <input className={styles.formInput} id="password" type={showPassword ? 'text' : 'password'} maxLength={23} name="password" value={formData.password} onChange={handleChange} required/>
-              <button className={styles.eyeButton} type="button" aria-label={showPassword ? 'Şifreyi gizle' : 'Şifreyi göster'} onClick={() => setShowPassword(prev => !prev)}>{showPassword ? <EyeOff size={18} color="black" /> : <Eye size={18} color="black" />}</button>
+              <button className={styles.eyeButton} type="button" onClick={() => setShowPassword(prev => !prev)} >{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
             </div>
+
           </div>
 
           <button className={styles.submitButton} type="submit" disabled={loading}>{loading ? 'Giriş yapılıyor...' : 'Giriş Yap'}</button>
-
-          <p className={styles.loginPageParagraph}>
-            Kayıtlı değil misiniz? <Link to="/register">Kayıt olun!</Link>
-          </p>
+          <p className={styles.loginPageParagraph}>Kayıtlı değil misiniz? <Link to="/register">Kayıt olun!</Link></p>
         </form>
       </div>
+
     </Layout>
   );
 }

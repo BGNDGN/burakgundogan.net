@@ -39,16 +39,19 @@ function Home () {
             <div className={styles.photograph}>
               <img src={burakImage} className={styles.burakImage} alt="Burak Gündoğan" loading="lazy" />
             </div>
+            <hr className={styles.sectionHr} />
             <div className={styles.nameSurname}><p>Burak Gündoğan</p></div>
-            <div className={styles.title}><p>Jr.Frontend/Full-Stack/Backend Developer</p></div>
+            <hr className={styles.sectionHr} />
             <div className={styles.socialMedias}><p>Sosyal Medya Hesaplarım ve Github Hesabım</p>
               <Logos />
             </div>
+            <hr className={styles.sectionHr} />
             <div className={styles.copyright}><p>Copyright © 2025 - Tüm Hakları Saklıdır.</p></div>
           </div>
 
           <div className={styles.homeSecondDiv}>
-            <p className={styles.blog}>BLOG SAYFAM</p>
+            <p className={styles.blog}>BLOG Ve Giriş/Kayıt Sayfalarım</p>
+            <hr className={styles.sectionHrBLOG} />
             <p className={styles.routerToHomePage} style={{ backgroundImage: `url(${homepage})` }}>
               Anasayfaya girmek için&nbsp;
               <Link to="/homepage"><strong className={styles.routerToHomePageStrong}>tıklayınız !</strong></Link>
