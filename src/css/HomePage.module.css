@@ -292,55 +292,120 @@ h2, h3, h4, h5 {
 
 @media (max-width: 768px) {
 
-.navbarDiv {
-  position: relative;
-  display: flex;
-  flex-direction: column;  
-  justify-content: center;
-  align-items: center;
-  gap: 12px;
-  background-color: #1f2937;
-  color: #fff;
-  padding: 1rem 2rem;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
+  .navbarDiv {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 14px;
+    padding: 1rem;
+    text-align: center;
+  }
 
-.navbarPageName {
-  text-align: center;
-}
+  .navbarPageName {
+    width: 100%;
+    text-align: center;
+  }
 
-.navbarPageName a {
-  font-size: 24px;
-  font-weight: bold;
-  color: #ddd;
-  text-decoration: none;
-}
+  .navbarPageName a {
+    font-size: 22px;
+  }
 
-.navbarPageName a:hover {
-  color: #fff;
-  transition: 0.2s;
-}
+  .navbarZones {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    white-space: normal;
+  }
 
-.navbarZones {
-  display: flex;
-  flex-direction: column; 
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
+  .navbarZones a {
+    width: 100%;
+    text-align: center;
+    font-size: 15px;
+  }
 
-.navbarZones a {
-  color: #ddd;
-  text-decoration: none;
-  font-weight: 500;
-}
+  .profileHoverArea {
+    margin-top: 8px;
+  }
 
-.navbarZones a:hover {
-  color: #fff;
-  transition: 0.2s;
-}
+  .profileSidebar {
+    width: 100%;
+    right: -100%;
+    padding: 22px;
+  }
 
-.profileHoverArea {
-  margin-top: 5px;
-}
+  .profileSidebarOpen {
+    right: 0;
+  }
+
+  .aboutZone,
+  .experienceZone,
+  .usingTechnologiesZone,
+  .contactMeZone,
+  .socialMediasZone {
+    width: 94%;
+    padding: 22px;
+    margin: 25px auto;
+    box-sizing: border-box;
+  }
+
+  .aboutZone h2,
+  .experienceZone h2,
+  .usingTechnologiesZone h2,
+  .contactMeZone h2,
+  .socialMediasZone h2 {
+    font-size: 1.6rem;
+    text-align: center;
+  }
+
+  .burakImageHomePage {
+    width: 170px;
+    height: 170px;
+  }
+
+  .contactMeZone input,
+  .contactMeZone textarea {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 15px;
+  }
+
+  .contactMeZone textarea {
+    min-height: 140px;
+  }
+
+  .contactMeZone button {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .socialMediasZone {
+    text-align: center;
+  }
+
+  .Icons {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin: 0 auto;
+  }
+
+  .Icons a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  p {
+    word-break: break-word;
+  }
 }
