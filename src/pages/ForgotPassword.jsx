@@ -56,7 +56,10 @@ function ForgotPassword() {
       <div className={styles.page}>
         <div className={styles.card}>
           <h2 className={styles.title}>Şifre Sıfırlama</h2>
-          <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim " "Sayfaya kayıt olduğun mail adresi ile gmail adresin aynı olmalı" "Mail spam kutusuna düşebilir".</p>
+          <hr></hr>
+          <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim.</p>
+          <p className={styles.description}>Sayfaya kayıt olduğun mail adresi, gerçekten kullandığın bir gmail hesabın olmalı. Aksi olursa Sıfırlama Linki alamazsınız.</p>
+          <p className={styles.description}>Mail spam kutusuna düşebilir. Tamamen güvenilirdir.</p> 
 
           <form className={styles.form} onSubmit={handleForgotPassword}>
             <input className={styles.input} type="email" placeholder="E-mail adresin" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"/>
