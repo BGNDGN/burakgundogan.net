@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
-
 import Layout from '../components/Layout';
 import baseURL from '../api/baseURL';
 import styles from '../css/ForgotPassword.module.css';
@@ -57,7 +56,7 @@ function ForgotPassword() {
       <div className={styles.page}>
         <div className={styles.card}>
           <h2 className={styles.title}>Şifre Sıfırlama</h2>
-          <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim.</p>
+          <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim " "Sayfaya kayıt olduğun mail adresi ile gmail adresin aynı olmalı" "Mail spam kutusuna düşebilir".</p>
 
           <form className={styles.form} onSubmit={handleForgotPassword}>
             <input className={styles.input} type="email" placeholder="E-mail adresin" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"/>
@@ -67,7 +66,8 @@ function ForgotPassword() {
           <div className={styles.navButtons}>
             <button type="button" onClick={() => navigate('/login')}>Giriş Yap</button>
             <button type="button" onClick={() => navigate('/register')}>Kayıt Ol</button>
-            <button type="button" onClick={() => navigate('/')}>Ana Sayfa</button>
+            <button type="button" onClick={() => navigate('/')}>Giriş Sayfasına Dön</button>
+            <button type="button" onClick={() => navigate('/homepage')}>Anasayfaya Dön</button>
           </div>
         </div>
       </div>

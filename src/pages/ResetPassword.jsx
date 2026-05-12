@@ -79,7 +79,7 @@ function ResetPassword() {
 };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/857045-hd_1920_1080_30fps.mp4">
+    <Layout videoUrl="https://burakgundogan.net/videos/15869190_1080_1920_30fps.mp4">
       <div className={styles.page}>
         <div className={styles.card}>
           <h2 className={styles.title}>Yeni Şifre Oluştur</h2>
