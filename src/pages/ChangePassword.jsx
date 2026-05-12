@@ -4,7 +4,6 @@ import baseURL from '../api/baseURL';
 import { useNavigate } from 'react-router-dom';
 import { toast } from "react-toastify";
 import { Eye, EyeOff } from 'lucide-react';
-
 import styles from '../css/ChangePassword.module.css';
 import Layout from '../components/Layout';
 
@@ -89,12 +88,9 @@ function ChangePassword() {
   };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/14856340_3840_2160_30fps.mp4">
-
+    <Layout videoUrl="https://burakgundogan.net/videos/15869190_1080_1920_30fps.mp4">
       <div className={styles.page}>
-
         <div className={styles.card}>
-
           <h2 className={styles.title}>🔐 Şifre Değiştir</h2>
 
           <div className={styles.inputGroup}>
@@ -110,9 +106,7 @@ function ChangePassword() {
           <button className={styles.primaryButton} onClick={handleChangePassword} disabled={loading}>{loading ? "Güncelleniyor..." : "Şifreyi Değiştir"}</button>
           <button className={styles.secondaryButton} onClick={() => navigate('/homepage')}>Geri Dön</button>
         </div>
-        
       </div>
-
     </Layout>
   );
 }

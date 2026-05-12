@@ -133,18 +133,17 @@ exports.forgotPassword = async (req, res) => {
     const url = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
 
     const info = await transporter.sendMail({
-  from: `"Burak App 🔐" <${process.env.EMAIL_USER}>`,
-  to: user.email,
-  replyTo: process.env.EMAIL_USER,
-  subject: "Şifre Sıfırlama",
-  html: `
-    <h2>Şifre Sıfırlama</h2>
-    <p>Linke tıklayarak şifreni sıfırlayabilirsin:</p>
-    <a href="${url}">${url}</a>
-  `
-});
+      from: `"Burak App 🔐" <${process.env.EMAIL_USER}>`,
+      to: user.email,
+      replyTo: process.env.EMAIL_USER,
+      subject: "Şifre Sıfırlama",
+      html: `
+        <h2>Şifre Sıfırlama</h2>
+        <p>Linke tıklayarak şifreni sıfırlayabilirsin:</p>
+        <a href="${url}">${url}</a>`
+    });
 
-console.log("📩 MAIL SENT INFO:", info.messageId);
+    console.log("📩 MAIL SENT INFO:", info.messageId);
 
     console.log("📩 Mail gönderildi:", info.messageId);
 

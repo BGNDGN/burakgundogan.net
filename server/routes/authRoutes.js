@@ -1,8 +1,6 @@
 const express = require('express');
 const router = express.Router();
-
 const authMiddleware = require('../middleware/authMiddleware');
-
 const {
   registerUser,
   loginUser,
@@ -12,13 +10,11 @@ const {
 
 const User = require('../models/userSchema');
 
-// AUTH
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.post('/forgot-password', forgotPassword);
 router.post('/reset-password/:token', resetPassword);
 
-// ME
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -35,7 +31,6 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
 });
 
-// CHANGE PASSWORD
 router.put('/change-password', authMiddleware, async (req, res) => {
   const bcrypt = require('bcryptjs');
 
@@ -68,7 +63,6 @@ router.put('/change-password', authMiddleware, async (req, res) => {
     return res.status(500).json({ message: "Server error" });
   }
 });
-
 
 console.log({
   registerUser,

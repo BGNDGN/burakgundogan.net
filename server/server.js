@@ -8,14 +8,11 @@ const authRoutes = require('./routes/authRoutes');
 
 const app = express();
 
-// ================= MIDDLEWARE =================
 app.use(cors());
 app.use(express.json());
 
-// ================= DB =================
 connectDB();
 
-// ================= TEST =================
 app.get('/test', (req, res) => {
   res.json({ ok: true });
 });
@@ -24,10 +21,8 @@ app.get('/debug', (req, res) => {
   res.json({ message: "backend alive" });
 });
 
-// ================= API =================
 app.use('/api', authRoutes);
 
-// ================= SERVER START =================
 const PORT = process.env.PORT || 7000;
 
 app.listen(PORT, () => {

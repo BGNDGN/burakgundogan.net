@@ -53,55 +53,24 @@ function ForgotPassword() {
   };
 
   return (
-    <Layout videoUrl="https://burakgundogan.net/videos/857045-hd_1920_1080_30fps.mp4">
-
+    <Layout videoUrl="https://burakgundogan.net/videos/9129751-hd_1920_1080_25fps.mp4">
       <div className={styles.page}>
         <div className={styles.card}>
-
           <h2 className={styles.title}>Şifre Sıfırlama</h2>
-
-          <p className={styles.description}>
-            E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim.
-          </p>
+          <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim.</p>
 
           <form className={styles.form} onSubmit={handleForgotPassword}>
-
-            <input
-              className={styles.input}
-              type="email"
-              placeholder="E-mail adresin"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              autoComplete="email"
-            />
-
-            <button
-              className={styles.button}
-              type="submit"
-              disabled={loading}
-            >
-              {loading ? "Gönderiliyor..." : "Sıfırlama Linki Gönder"}
-            </button>
-
+            <input className={styles.input} type="email" placeholder="E-mail adresin" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"/>
+            <button className={styles.button} type="submit" disabled={loading}>{loading ? "Gönderiliyor..." : "Sıfırlama Linki Gönder"}</button>
           </form>
 
           <div className={styles.navButtons}>
-            <button type="button" onClick={() => navigate('/login')}>
-              Giriş Yap
-            </button>
-
-            <button type="button" onClick={() => navigate('/register')}>
-              Kayıt Ol
-            </button>
-
-            <button type="button" onClick={() => navigate('/')}>
-              Ana Sayfa
-            </button>
+            <button type="button" onClick={() => navigate('/login')}>Giriş Yap</button>
+            <button type="button" onClick={() => navigate('/register')}>Kayıt Ol</button>
+            <button type="button" onClick={() => navigate('/')}>Ana Sayfa</button>
           </div>
-
         </div>
       </div>
-
     </Layout>
   );
 }
