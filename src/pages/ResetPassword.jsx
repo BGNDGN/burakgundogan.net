@@ -42,48 +42,47 @@ function ResetPassword() {
   };
 
   const handleResetPassword = async (e) => {
+  e.preventDefault();
 
-    e.preventDefault();
+  const error = validatePassword(password);
 
-    const error = validatePassword(password);
+  if (error) {
+    toast.error(error);
+    return;
+  }
 
-    if (error) {
-      toast.error(error);
-      return;
-    }
+  if (password !== confirmPassword) {
+    toast.error("Şifreler uyuşmuyor.");
+    return;
+  }
 
-    if (password !== confirmPassword) {
-      toast.error("Şifreler uyuşmuyor.");
-      return;
-    }
+  try {
+    setLoading(true);
 
-    try {
+    const res = await axios.post(
+      `${baseURL}/api/reset-password/${token}`,
+      {
+        password,
+        confirmPassword
+      }
+    );
 
-      setLoading(true);
+    toast.success(res.data.message);
 
-      const res = await axios.post(
-        `${baseURL}/api/reset-password/${token}`,
-        {
-          password
-        }
-      );
+    // 🔥 küçük gecikme = daha doğal UX
+    setTimeout(() => {
+      navigate('/login', { replace: true });
+    }, 1200);
 
-      toast.success(res.data.message);
+  } catch (err) {
+    toast.error(
+      err.response?.data?.message || "Bir hata oluştu."
+    );
 
-      navigate('/login');
-
-    } catch (err) {
-
-      toast.error(
-        err.response?.data?.message || "Bir hata oluştu."
-      );
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Layout videoUrl="https://burakgundogan.net/videos/857045-hd_1920_1080_30fps.mp4">
