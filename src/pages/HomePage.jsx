@@ -98,7 +98,7 @@ function HomePage() {
 
       <div id="contact" className={styles.contactMeZone}>
         <h2>İletişim</h2>
-        <hr className={styles.sectionHrContact} />
+        <hr className={styles.sectionHr} />
 
         <form onSubmit={handleSendMail}>
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="E-mail" required/>
