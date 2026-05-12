@@ -143,6 +143,24 @@
   color: red;
 }
 
+.forgotPasswordText {
+  margin-top: 18px;
+  text-align: center;
+}
+
+.forgotPasswordText a {
+  color: #dbeafe;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+.forgotPasswordText a:hover {
+  color: white;
+  text-decoration: underline;
+}
+
 @media (max-width: 768px) {
   .formTitle {
     margin-top: 30px;

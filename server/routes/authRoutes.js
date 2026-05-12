@@ -2,16 +2,23 @@ const express = require('express');
 const router = express.Router();
 
 const authMiddleware = require('../middleware/authMiddleware');
+
 const {
   registerUser,
   loginUser,
+  forgotPassword,
+  resetPassword
 } = require('../controllers/authController');
 
 const User = require('../models/userSchema');
 
+// AUTH
 router.post('/register', registerUser);
 router.post('/login', loginUser);
+router.post('/forgot-password', forgotPassword);
+router.post('/reset-password/:token', resetPassword);
 
+// ME
 router.get('/me', authMiddleware, async (req, res) => {
   try {
     const user = await User.findById(req.user.id).select('-password');
@@ -28,7 +35,10 @@ router.get('/me', authMiddleware, async (req, res) => {
   }
 });
 
+// CHANGE PASSWORD
 router.put('/change-password', authMiddleware, async (req, res) => {
+  const bcrypt = require('bcryptjs');
+
   const { oldPassword, newPassword } = req.body;
 
   if (!oldPassword || !newPassword) {
@@ -36,8 +46,6 @@ router.put('/change-password', authMiddleware, async (req, res) => {
   }
 
   try {
-    const bcrypt = require('bcryptjs');
-
     const user = await User.findById(req.user.id);
 
     if (!user) {
@@ -50,9 +58,7 @@ router.put('/change-password', authMiddleware, async (req, res) => {
       return res.status(401).json({ message: "Eski şifre yanlış" });
     }
 
-    const hashed = await bcrypt.hash(newPassword, 10);
-
-    user.password = hashed;
+    user.password = await bcrypt.hash(newPassword, 10);
     await user.save();
 
     return res.json({ message: "Şifre başarıyla değiştirildi" });
@@ -64,4 +70,3 @@ router.put('/change-password', authMiddleware, async (req, res) => {
 });
 
 module.exports = router;
-
