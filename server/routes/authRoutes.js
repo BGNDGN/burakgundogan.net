@@ -69,4 +69,13 @@ router.put('/change-password', authMiddleware, async (req, res) => {
   }
 });
 
+
+console.log({
+  registerUser,
+  loginUser,
+  forgotPassword,
+  resetPassword
+});
+
+
 module.exports = router;

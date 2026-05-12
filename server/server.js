@@ -20,6 +20,10 @@ app.get('/test', (req, res) => {
   res.json({ ok: true });
 });
 
+app.get('/debug', (req, res) => {
+  res.json({ message: "backend alive" });
+});
+
 // ================= API =================
 app.use('/api', authRoutes);
 
