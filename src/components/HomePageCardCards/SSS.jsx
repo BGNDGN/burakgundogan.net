@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from'../../css/HomePageCardCards.module.css';
 
 function SSS() {
     const softwareSupportSpecialist = [
@@ -14,7 +15,7 @@ function SSS() {
     ];
 
     return (
-        <div className='sss'>
+        <div className={styles.sss}>
             <h3>Software Support Specialist</h3>
             <h4>CondoLife | Tam zamanlı</h4>
             <h5>Şub 2025 - Haz 2025 · 5 ay</h5>
@@ -23,7 +24,11 @@ function SSS() {
                 {softwareSupportSpecialist.map((item, index) => (
                     <li key={index}>{item}</li>
                 ))}
+                
             </ul>
+
+            <hr className={styles.Hr}/>
+
         </div>
     );
 }

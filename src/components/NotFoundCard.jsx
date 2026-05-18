@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../css/Error.module.css';
+import styles from '../css/NotFoundCard.module.css';
 import { useNavigate } from 'react-router-dom';
 
 const Error = () => {

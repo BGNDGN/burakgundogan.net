@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from'../../css/HomePageCardCards.module.css';
 
 function FSDI() {
     const fullStackDeveloperIntern = [
@@ -23,6 +24,9 @@ function FSDI() {
                     <li key={index}>{item}</li>
                 ))}
             </ul>
+
+            <hr className={styles.Hr}/>
+
         </div>
     );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import Layout from '../components/Layout';
-import NotFound from '../components/Error'
+import NotFound from '../components/NotFoundCard'
 
 function NotFound404 () {
   
