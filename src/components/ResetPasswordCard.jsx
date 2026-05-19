@@ -1,22 +1,12 @@
 import React, { useState } from 'react';
-
 import { Eye, EyeOff } from 'lucide-react';
-
 import { useParams, useNavigate } from 'react-router-dom';
-
 import { toast } from 'react-toastify';
-
 import { useDispatch, useSelector } from 'react-redux';
-
-import {
-  resetPassword,
-  resetResetPasswordState
-} from '../redux/slices/resetPasswordSlice';
-
+import { resetPassword, resetResetPasswordState} from '../redux/slices/resetPasswordSlice';
 import styles from '../css/ResetPasswordCard.module.css';
 
 const ResetPasswordCard = () => {
-
   const { token } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -27,12 +17,10 @@ const ResetPasswordCard = () => {
 
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
-
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const validatePassword = (password) => {
-
     if (!password)
       return 'Şifre boş bırakılamaz.';
 
@@ -52,7 +40,6 @@ const ResetPasswordCard = () => {
   };
 
   const handleResetPassword = async (e) => {
-
     e.preventDefault();
 
     const error = validatePassword(password);
@@ -67,9 +54,7 @@ const ResetPasswordCard = () => {
       return;
     }
 
-    // UX KONTROLÜ (opsiyonel ama iyi pratik)
     if (password === confirmPassword) {
-      // bu zaten aynı şey ama burada amaç: kullanıcıya “aynı şifreyi tekrar kullanma” hissi vermek
       const isSameWeakPattern =
         password.length < 6 && /^[A-Z]/.test(password);
 
@@ -87,17 +72,12 @@ const ResetPasswordCard = () => {
     );
 
     if (resetPassword.fulfilled.match(result)) {
-
       toast.success(result.payload.message);
-
       dispatch(resetResetPasswordState());
-
       setTimeout(() => {
         navigate('/login', { replace: true });
       }, 1200);
-
     } else {
-
       toast.error(
         result.payload || 'Bir hata oluştu.'
       );
@@ -108,66 +88,20 @@ const ResetPasswordCard = () => {
     <div className={styles.page}>
 
       <div className={styles.card}>
+        <h2 className={styles.title}> Yeni Şifre Oluştur</h2>
 
-        <h2 className={styles.title}>
-          Yeni Şifre Oluştur
-        </h2>
-
-        <form
-          className={styles.form}
-          onSubmit={handleResetPassword}
-        >
-
+        <form className={styles.form} onSubmit={handleResetPassword}>
           <div className={styles.passwordWrapper}>
-
-            <input
-              className={styles.input}
-              type={showPassword ? 'text' : 'password'}
-              placeholder="Yeni şifre"
-              value={password}
-              maxLength={17}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-
-            <button
-              type="button"
-              className={styles.eyeButton}
-              onClick={() => setShowPassword(prev => !prev)}
-            >
-              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-
+            <input className={styles.input} type={showPassword ? 'text' : 'password'} placeholder="Yeni şifre" value={password} maxLength={17} onChange={(e) => setPassword(e.target.value)}/>
+            <button type="button" className={styles.eyeButton} onClick={() => setShowPassword(prev => !prev)}>{showPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
           </div>
 
           <div className={styles.passwordWrapper}>
-
-            <input
-              className={styles.input}
-              type={showConfirmPassword ? 'text' : 'password'}
-              placeholder="Yeni şifre tekrar"
-              value={confirmPassword}
-              maxLength={17}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-            />
-
-            <button
-              type="button"
-              className={styles.eyeButton}
-              onClick={() => setShowConfirmPassword(prev => !prev)}
-            >
-              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
-            </button>
-
+            <input className={styles.input} type={showConfirmPassword ? 'text' : 'password'} placeholder="Yeni şifre tekrar" value={confirmPassword} maxLength={17} onChange={(e) => setConfirmPassword(e.target.value)}/>
+            <button type="button" className={styles.eyeButton} onClick={() => setShowConfirmPassword(prev => !prev)}>{showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
           </div>
 
-          <button
-            className={styles.button}
-            type="submit"
-            disabled={loading}
-          >
-            {loading ? 'Güncelleniyor...' : 'Şifreyi Güncelle'}
-          </button>
-
+          <button className={styles.button} type="submit" disabled={loading}>{loading ? 'Güncelleniyor...' : 'Şifreyi Güncelle'}</button>
         </form>
 
       </div>

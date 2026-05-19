@@ -7,9 +7,7 @@ import { changePassword, resetChangePasswordState} from '../redux/slices/changeP
 import styles from '../css/ChangePasswordCard.module.css';
 
 const ChangePasswordCard = () => {
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const { loading } = useSelector(
@@ -17,17 +15,11 @@ const ChangePasswordCard = () => {
   );
 
   const [oldPassword, setOldPassword] = useState('');
-
   const [newPassword, setNewPassword] = useState('');
-
-  const [showOldPassword, setShowOldPassword] =
-    useState(false);
-
-  const [showNewPassword, setShowNewPassword] =
-    useState(false);
+  const [showOldPassword, setShowOldPassword] = useState(false);
+  const [showNewPassword, setShowNewPassword] = useState(false);
 
   const validatePassword = (password) => {
-
     if (!password)
       return 'Şifre boş bırakılamaz!';
 
@@ -50,30 +42,21 @@ const ChangePasswordCard = () => {
   };
 
   const handleChangePassword = async () => {
-
     if (!oldPassword) {
-
       toast.error('Eski şifre boş olamaz!');
-
       return;
     }
 
-    const error =
-      validatePassword(newPassword);
-
+    const error = validatePassword(newPassword);
     if (error) {
-
       toast.error(error);
-
       return;
     }
 
     if (oldPassword === newPassword) {
-
       toast.error(
         'Yeni şifre eski şifre ile aynı olamaz!'
       );
-
       return;
     }
 
@@ -87,14 +70,12 @@ const ChangePasswordCard = () => {
     if (
       changePassword.fulfilled.match(result)
     ) {
-
       toast.success(
         result.payload.message ||
         'Şifre başarıyla değiştirildi'
       );
 
       setOldPassword('');
-
       setNewPassword('');
 
       dispatch(
@@ -106,7 +87,6 @@ const ChangePasswordCard = () => {
       }, 800);
 
     } else {
-
       toast.error(
         result.payload ||
         'Şifre değiştirilemedi'
@@ -118,111 +98,21 @@ const ChangePasswordCard = () => {
     <div className={styles.page}>
 
       <div className={styles.card}>
-
-        <h2 className={styles.title}>
-          🔐 Şifre Değiştir
-        </h2>
+        <h2 className={styles.title}>🔐 Şifre Değiştir</h2>
 
         <div className={styles.inputGroup}>
-
-          <input
-            className={styles.input}
-            type={
-              showOldPassword
-                ? 'text'
-                : 'password'
-            }
-            placeholder="Eski şifre"
-            value={oldPassword}
-            onChange={(e) =>
-              setOldPassword(
-                e.target.value
-              )
-            }
-          />
-
-          <button
-            className={styles.eyeButton}
-            onClick={() =>
-              setShowOldPassword(
-                prev => !prev
-              )
-            }
-            type="button"
-          >
-
-            {
-              showOldPassword
-                ? <EyeOff size={18} />
-                : <Eye size={18} />
-            }
-
-          </button>
-
+          <input className={styles.input} type={ showOldPassword ? 'text' : 'password'} placeholder="Eski şifre" value={oldPassword} onChange={(e) => setOldPassword(e.target.value)}/>
+          <button className={styles.eyeButton} onClick={() => setShowOldPassword(prev => !prev)} type="button"> {showOldPassword ? <EyeOff size={18} /> : <Eye size={18} />}</button>
         </div>
 
         <div className={styles.inputGroup}>
-
-          <input
-            className={styles.input}
-            type={
-              showNewPassword
-                ? 'text'
-                : 'password'
-            }
-            placeholder="Yeni şifre"
-            value={newPassword}
-            maxLength={17}
-            onChange={(e) =>
-              setNewPassword(
-                e.target.value
-              )
-            }
-          />
-
-          <button
-            className={styles.eyeButton}
-            onClick={() =>
-              setShowNewPassword(
-                prev => !prev
-              )
-            }
-            type="button"
-          >
-
-            {
-              showNewPassword
-                ? <EyeOff size={18} />
-                : <Eye size={18} />
-            }
-
+          <input className={styles.input} type={showNewPassword ? 'text' : 'password'} placeholder="Yeni şifre" value={newPassword} maxLength={17} onChange={(e) => setNewPassword(e.target.value)}/>
+          <button className={styles.eyeButton} onClick={() => setShowNewPassword(prev => !prev)}type="button">{showNewPassword ? <EyeOff size={18} /> : <Eye size={18} />}
           </button>
-
         </div>
 
-        <button
-          className={styles.primaryButton}
-          onClick={handleChangePassword}
-          disabled={loading}
-        >
-
-          {
-            loading
-              ? 'Güncelleniyor...'
-              : 'Şifreyi Değiştir'
-          }
-
-        </button>
-
-        <button
-          className={styles.secondaryButton}
-          onClick={() =>
-            navigate('/homepage')
-          }
-        >
-          Geri Dön
-        </button>
-
+        <button className={styles.primaryButton} onClick={handleChangePassword} disabled={loading}>{loading ? 'Güncelleniyor...' : 'Şifreyi Değiştir'}</button>
+        <button className={styles.secondaryButton} onClick={() => navigate('/homepage')}>Geri Dön</button>
       </div>
 
     </div>

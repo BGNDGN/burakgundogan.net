@@ -6,11 +6,8 @@ export const changePassword = createAsyncThunk(
   'changePassword/changePassword',
 
   async (passwordData, { rejectWithValue }) => {
-
     try {
-
       const token = localStorage.getItem('token');
-
       const response = await axios.put(
         `${baseURL}/api/change-password`,
         passwordData,
@@ -24,7 +21,6 @@ export const changePassword = createAsyncThunk(
       return response.data;
 
     } catch (error) {
-
       return rejectWithValue(
         error.response?.data?.message ||
         'Şifre değiştirilemedi'
@@ -43,19 +39,15 @@ const changePasswordSlice = createSlice({
   },
 
   reducers: {
-
     resetChangePasswordState: (state) => {
       state.loading = false;
       state.success = false;
       state.error = null;
     },
-
   },
 
   extraReducers: (builder) => {
-
     builder
-
       .addCase(changePassword.pending, (state) => {
         state.loading = true;
         state.success = false;
@@ -73,7 +65,6 @@ const changePasswordSlice = createSlice({
         state.success = false;
         state.error = action.payload;
       });
-
   },
 });
 

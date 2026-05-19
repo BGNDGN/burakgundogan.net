@@ -1,24 +1,16 @@
-import {
-  createSlice,
-  createAsyncThunk
-} from '@reduxjs/toolkit';
-
+import { createSlice, createAsyncThunk} from '@reduxjs/toolkit';
 import axios from 'axios';
-
 import baseURL from '../../api/baseURL';
 
 export const resetPassword =
   createAsyncThunk(
-
     'resetPassword/resetPassword',
 
     async (
       { token, password, confirmPassword },
       { rejectWithValue }
     ) => {
-
       try {
-
         const response = await axios.post(
           `${baseURL}/api/reset-password/${token}`,
           {
@@ -26,11 +18,9 @@ export const resetPassword =
             confirmPassword,
           }
         );
-
         return response.data;
 
       } catch (error) {
-
         return rejectWithValue(
           error.response?.data?.message ||
           'Bir hata oluştu.'
@@ -40,7 +30,6 @@ export const resetPassword =
   );
 
 const resetPasswordSlice = createSlice({
-
   name: 'resetPassword',
 
   initialState: {
@@ -50,31 +39,21 @@ const resetPasswordSlice = createSlice({
   },
 
   reducers: {
-
     resetResetPasswordState: (state) => {
-
       state.loading = false;
-
       state.success = false;
-
       state.error = null;
-
     },
-
   },
 
   extraReducers: (builder) => {
-
     builder
 
       .addCase(
         resetPassword.pending,
         (state) => {
-
           state.loading = true;
-
           state.success = false;
-
           state.error = null;
         }
       )
@@ -82,11 +61,8 @@ const resetPasswordSlice = createSlice({
       .addCase(
         resetPassword.fulfilled,
         (state) => {
-
           state.loading = false;
-
           state.success = true;
-
           state.error = null;
         }
       )
@@ -94,11 +70,8 @@ const resetPasswordSlice = createSlice({
       .addCase(
         resetPassword.rejected,
         (state, action) => {
-
           state.loading = false;
-
           state.success = false;
-
           state.error = action.payload;
         }
       );

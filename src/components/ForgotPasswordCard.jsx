@@ -1,28 +1,12 @@
 import React, { useState } from 'react';
-
-import { useNavigate }
-  from 'react-router-dom';
-
-import { toast }
-  from 'react-toastify';
-
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
-
-import {
-  forgotPassword,
-  resetForgotPasswordState
-} from '../redux/slices/forgotPasswordSlice';
-
-import styles
-  from '../css/ForgotPasswordCard.module.css';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { useDispatch, useSelector} from 'react-redux';
+import { forgotPassword, resetForgotPasswordState} from '../redux/slices/forgotPasswordSlice';
+import styles from '../css/ForgotPasswordCard.module.css';
 
 const ForgotPasswordCard = () => {
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const { loading } = useSelector(
@@ -33,18 +17,15 @@ const ForgotPasswordCard = () => {
 
   const handleForgotPassword =
     async (e) => {
-
       e.preventDefault();
 
       const trimmedEmail =
         email.trim();
 
       if (!trimmedEmail) {
-
         toast.error(
           'E-mail boş bırakılamaz.'
         );
-
         return;
       }
 
@@ -55,7 +36,6 @@ const ForgotPasswordCard = () => {
       if (
         forgotPassword.fulfilled.match(result)
       ) {
-
         toast.success(
           result.payload.message ||
           'Mail gönderildi'
@@ -68,7 +48,6 @@ const ForgotPasswordCard = () => {
         );
 
       } else {
-
         toast.error(
           result.payload ||
           'Bir hata oluştu'
@@ -80,10 +59,7 @@ const ForgotPasswordCard = () => {
     <div className={styles.page}>
 
       <div className={styles.card}>
-
-        <h2 className={styles.title}>
-          Şifre Sıfırlama
-        </h2>
+        <h2 className={styles.title}>Şifre Sıfırlama</h2>
 
         <hr />
 
@@ -109,82 +85,17 @@ const ForgotPasswordCard = () => {
           Tamamen güvenilirdir.
         </p>
 
-        <form
-          className={styles.form}
-          onSubmit={
-            handleForgotPassword
-          }
-        >
-
-          <input
-            className={styles.input}
-            type="email"
-            placeholder="E-mail adresin"
-            value={email}
-            onChange={(e) =>
-              setEmail(
-                e.target.value
-              )
-            }
-            autoComplete="email"
-          />
-
-          <button
-            className={styles.button}
-            type="submit"
-            disabled={loading}
-          >
-
-            {
-              loading
-                ? 'Gönderiliyor...'
-                : 'Sıfırlama Linki Gönder'
-            }
-
-          </button>
-
+        <form className={styles.form} onSubmit={handleForgotPassword}>
+          <input className={styles.input} type="email" placeholder="E-mail adresin" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"/>
+          <button className={styles.button} type="submit" disabled={loading}>{loading ? 'Gönderiliyor...' : 'Sıfırlama Linki Gönder'}</button>
         </form>
 
         <div className={styles.navButtons}>
-
-          <button
-            type="button"
-            onClick={() =>
-              navigate('/login')
-            }
-          >
-            Giriş Yap
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              navigate('/register')
-            }
-          >
-            Kayıt Ol
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              navigate('/')
-            }
-          >
-            Giriş Sayfasına Dön
-          </button>
-
-          <button
-            type="button"
-            onClick={() =>
-              navigate('/homepage')
-            }
-          >
-            Anasayfaya Dön
-          </button>
-
+          <button type="button" onClick={() => navigate('/login')}>Giriş Yap</button>
+          <button type="button" onClick={() => navigate('/register')}>Kayıt Ol</button>
+          <button type="button" onClick={() => navigate('/')}>Giriş Sayfasına Dön</button>
+          <button type="button" onClick={() => navigate('/homepage')}>Anasayfaya Dön</button>
         </div>
-
       </div>
 
     </div>
