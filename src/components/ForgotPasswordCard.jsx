@@ -1,91 +1,190 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import baseURL from '../api/baseURL';
-import styles from '../css/ForgotPasswordCard.module.css';
+
+import { useNavigate }
+  from 'react-router-dom';
+
+import { toast }
+  from 'react-toastify';
+
+import {
+  useDispatch,
+  useSelector
+} from 'react-redux';
+
+import {
+  forgotPassword,
+  resetForgotPasswordState
+} from '../redux/slices/forgotPasswordSlice';
+
+import styles
+  from '../css/ForgotPasswordCard.module.css';
 
 const ForgotPasswordCard = () => {
 
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-
   const navigate = useNavigate();
 
-  const handleForgotPassword = async (e) => {
+  const dispatch = useDispatch();
 
-    e.preventDefault();
+  const { loading } = useSelector(
+    state => state.forgotPassword
+  );
 
-    const trimmedEmail = email.trim();
+  const [email, setEmail] = useState('');
 
-    if (!trimmedEmail) {
-      toast.error("E-mail boş bırakılamaz.");
-      return;
-    }
+  const handleForgotPassword =
+    async (e) => {
 
-    try {
+      e.preventDefault();
 
-      setLoading(true);
+      const trimmedEmail =
+        email.trim();
 
-      const res = await axios.post(
-        `${baseURL}/api/forgot-password`,
-        { email: trimmedEmail },
-        {
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          timeout: 15000
-        }
+      if (!trimmedEmail) {
+
+        toast.error(
+          'E-mail boş bırakılamaz.'
+        );
+
+        return;
+      }
+
+      const result = await dispatch(
+        forgotPassword(trimmedEmail)
       );
 
-      toast.success(res.data.message || "Mail gönderildi");
+      if (
+        forgotPassword.fulfilled.match(result)
+      ) {
 
-      setEmail('');
+        toast.success(
+          result.payload.message ||
+          'Mail gönderildi'
+        );
 
-    } catch (err) {
+        setEmail('');
 
-      const msg =
-        err.response?.data?.message ||
-        err.message ||
-        "Bir hata oluştu";
+        dispatch(
+          resetForgotPasswordState()
+        );
 
-      toast.error(msg);
+      } else {
 
-      console.error("ForgotPassword Error:", err);
-
-    } finally {
-
-      setLoading(false);
-
-    }
-  };
+        toast.error(
+          result.payload ||
+          'Bir hata oluştu'
+        );
+      }
+    };
 
   return (
     <div className={styles.page}>
 
       <div className={styles.card}>
-        <h2 className={styles.title}>Şifre Sıfırlama</h2>
+
+        <h2 className={styles.title}>
+          Şifre Sıfırlama
+        </h2>
+
         <hr />
-        <p className={styles.description}>E-mail adresini gir, sana güvenli bir sıfırlama linki gönderelim.</p>
-        
+
         <p className={styles.description}>
-          Sayfaya kayıt olduğun mail adresi, gerçekten kullandığın bir gmail hesabın olmalı.
-          Aksi olursa Sıfırlama Linki alamazsınız.
+          E-mail adresini gir,
+          sana güvenli bir
+          sıfırlama linki gönderelim.
         </p>
 
-        <p className={styles.description}>Mail spam kutusuna düşebilir. Tamamen güvenilirdir.</p>
+        <p className={styles.description}>
+          Sayfaya kayıt olduğun
+          mail adresi,
+          gerçekten kullandığın
+          bir gmail hesabın olmalı.
+          Aksi olursa
+          Sıfırlama Linki
+          alamazsınız.
+        </p>
 
-        <form className={styles.form} onSubmit={handleForgotPassword}>
-          <input className={styles.input} type="email" placeholder="E-mail adresin" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email"/>
-          <button className={styles.button} type="submit" disabled={loading}>{loading ? "Gönderiliyor..." : "Sıfırlama Linki Gönder"}</button>
+        <p className={styles.description}>
+          Mail spam kutusuna
+          düşebilir.
+          Tamamen güvenilirdir.
+        </p>
+
+        <form
+          className={styles.form}
+          onSubmit={
+            handleForgotPassword
+          }
+        >
+
+          <input
+            className={styles.input}
+            type="email"
+            placeholder="E-mail adresin"
+            value={email}
+            onChange={(e) =>
+              setEmail(
+                e.target.value
+              )
+            }
+            autoComplete="email"
+          />
+
+          <button
+            className={styles.button}
+            type="submit"
+            disabled={loading}
+          >
+
+            {
+              loading
+                ? 'Gönderiliyor...'
+                : 'Sıfırlama Linki Gönder'
+            }
+
+          </button>
+
         </form>
 
         <div className={styles.navButtons}>
-          <button type="button" onClick={() => navigate('/login')}>Giriş Yap</button>
-          <button type="button" onClick={() => navigate('/register')}>Kayıt Ol</button>
-          <button type="button" onClick={() => navigate('/')}>Giriş Sayfasına Dön</button>
-          <button type="button" onClick={() => navigate('/homepage')}>Anasayfaya Dön</button>
+
+          <button
+            type="button"
+            onClick={() =>
+              navigate('/login')
+            }
+          >
+            Giriş Yap
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              navigate('/register')
+            }
+          >
+            Kayıt Ol
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              navigate('/')
+            }
+          >
+            Giriş Sayfasına Dön
+          </button>
+
+          <button
+            type="button"
+            onClick={() =>
+              navigate('/homepage')
+            }
+          >
+            Anasayfaya Dön
+          </button>
+
         </div>
+
       </div>
 
     </div>

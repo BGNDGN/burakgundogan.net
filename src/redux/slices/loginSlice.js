@@ -25,7 +25,6 @@ export const loginUser = createAsyncThunk(
   }
 );
 
-
 export const fetchMe = createAsyncThunk(
   'login/fetchMe',
   async (_, { rejectWithValue }) => {
@@ -56,8 +55,7 @@ export const fetchMe = createAsyncThunk(
     }
   }
 );
-
-
+  
 const loginSlice = createSlice({
   name: 'login',
 
