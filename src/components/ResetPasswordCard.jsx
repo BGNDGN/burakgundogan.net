@@ -1,64 +1,37 @@
 import React, { useState } from 'react';
 
-import {
-  Eye,
-  EyeOff
-} from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 
-import {
-  useParams,
-  useNavigate
-} from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 
-import { toast }
-  from 'react-toastify';
+import { toast } from 'react-toastify';
 
-import {
-  useDispatch,
-  useSelector
-} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import {
   resetPassword,
   resetResetPasswordState
 } from '../redux/slices/resetPasswordSlice';
 
-import styles
-  from '../css/ResetPasswordCard.module.css';
+import styles from '../css/ResetPasswordCard.module.css';
 
 const ResetPasswordCard = () => {
 
   const { token } = useParams();
-
   const navigate = useNavigate();
-
   const dispatch = useDispatch();
 
   const { loading } = useSelector(
     state => state.resetPassword
   );
 
-  const [password, setPassword] =
-    useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  const [
-    confirmPassword,
-    setConfirmPassword
-  ] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
-  const [
-    showPassword,
-    setShowPassword
-  ] = useState(false);
-
-  const [
-    showConfirmPassword,
-    setShowConfirmPassword
-  ] = useState(false);
-
-  const validatePassword = (
-    password
-  ) => {
+  const validatePassword = (password) => {
 
     if (!password)
       return 'Şifre boş bırakılamaz.';
@@ -66,11 +39,8 @@ const ResetPasswordCard = () => {
     if (password.length > 17)
       return 'Şifre en fazla 17 karakter olabilir.';
 
-    const startsWithUpper =
-      /^[A-Z]/.test(password);
-
-    const hasNumber =
-      /\d/.test(password);
+    const startsWithUpper = /^[A-Z]/.test(password);
+    const hasNumber = /\d/.test(password);
 
     if (!startsWithUpper)
       return 'Şifre büyük harf ile başlamalıdır.';
@@ -81,68 +51,58 @@ const ResetPasswordCard = () => {
     return '';
   };
 
-  const handleResetPassword =
-    async (e) => {
+  const handleResetPassword = async (e) => {
 
-      e.preventDefault();
+    e.preventDefault();
 
-      const error =
-        validatePassword(password);
+    const error = validatePassword(password);
 
-      if (error) {
+    if (error) {
+      toast.error(error);
+      return;
+    }
 
-        toast.error(error);
+    if (password !== confirmPassword) {
+      toast.error('Şifreler uyuşmuyor.');
+      return;
+    }
 
-        return;
+    // UX KONTROLÜ (opsiyonel ama iyi pratik)
+    if (password === confirmPassword) {
+      // bu zaten aynı şey ama burada amaç: kullanıcıya “aynı şifreyi tekrar kullanma” hissi vermek
+      const isSameWeakPattern =
+        password.length < 6 && /^[A-Z]/.test(password);
+
+      if (isSameWeakPattern) {
+        toast.info('Daha güçlü bir şifre seçmelisin.');
       }
+    }
 
-      if (
-        password !== confirmPassword
-      ) {
+    const result = await dispatch(
+      resetPassword({
+        token,
+        password,
+        confirmPassword,
+      })
+    );
 
-        toast.error(
-          'Şifreler uyuşmuyor.'
-        );
+    if (resetPassword.fulfilled.match(result)) {
 
-        return;
-      }
+      toast.success(result.payload.message);
 
-      const result = await dispatch(
-        resetPassword({
-          token,
-          password,
-          confirmPassword,
-        })
+      dispatch(resetResetPasswordState());
+
+      setTimeout(() => {
+        navigate('/login', { replace: true });
+      }, 1200);
+
+    } else {
+
+      toast.error(
+        result.payload || 'Bir hata oluştu.'
       );
-
-      if (
-        resetPassword.fulfilled.match(result)
-      ) {
-
-        toast.success(
-          result.payload.message
-        );
-
-        dispatch(
-          resetResetPasswordState()
-        );
-
-        setTimeout(() => {
-
-          navigate('/login', {
-            replace: true,
-          });
-
-        }, 1200);
-
-      } else {
-
-        toast.error(
-          result.payload ||
-          'Bir hata oluştu.'
-        );
-      }
-    };
+    }
+  };
 
   return (
     <div className={styles.page}>
@@ -155,97 +115,47 @@ const ResetPasswordCard = () => {
 
         <form
           className={styles.form}
-          onSubmit={
-            handleResetPassword
-          }
+          onSubmit={handleResetPassword}
         >
 
-          <div
-            className={
-              styles.passwordWrapper
-            }
-          >
+          <div className={styles.passwordWrapper}>
 
             <input
               className={styles.input}
-              type={
-                showPassword
-                  ? 'text'
-                  : 'password'
-              }
+              type={showPassword ? 'text' : 'password'}
               placeholder="Yeni şifre"
               value={password}
               maxLength={17}
-              onChange={(e) =>
-                setPassword(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setPassword(e.target.value)}
             />
 
             <button
               type="button"
-              className={
-                styles.eyeButton
-              }
-              onClick={() =>
-                setShowPassword(
-                  prev => !prev
-                )
-              }
+              className={styles.eyeButton}
+              onClick={() => setShowPassword(prev => !prev)}
             >
-
-              {
-                showPassword
-                  ? <EyeOff size={18} />
-                  : <Eye size={18} />
-              }
-
+              {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
 
           </div>
 
-          <div
-            className={
-              styles.passwordWrapper
-            }
-          >
+          <div className={styles.passwordWrapper}>
 
             <input
               className={styles.input}
-              type={
-                showConfirmPassword
-                  ? 'text'
-                  : 'password'
-              }
+              type={showConfirmPassword ? 'text' : 'password'}
               placeholder="Yeni şifre tekrar"
               value={confirmPassword}
               maxLength={17}
-              onChange={(e) =>
-                setConfirmPassword(
-                  e.target.value
-                )
-              }
+              onChange={(e) => setConfirmPassword(e.target.value)}
             />
 
             <button
               type="button"
-              className={
-                styles.eyeButton
-              }
-              onClick={() =>
-                setShowConfirmPassword(
-                  prev => !prev
-                )
-              }
+              className={styles.eyeButton}
+              onClick={() => setShowConfirmPassword(prev => !prev)}
             >
-
-              {
-                showConfirmPassword
-                  ? <EyeOff size={18} />
-                  : <Eye size={18} />
-              }
-
+              {showConfirmPassword ? <EyeOff size={18} /> : <Eye size={18} />}
             </button>
 
           </div>
@@ -255,13 +165,7 @@ const ResetPasswordCard = () => {
             type="submit"
             disabled={loading}
           >
-
-            {
-              loading
-                ? 'Güncelleniyor...'
-                : 'Şifreyi Güncelle'
-            }
-
+            {loading ? 'Güncelleniyor...' : 'Şifreyi Güncelle'}
           </button>
 
         </form>
